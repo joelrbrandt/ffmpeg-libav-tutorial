@@ -7,3 +7,6 @@ bunny_1s_gop.mp4.webm
 .vscode
 .clangd
 compile_commands.json
+
+*.mp4
+!small_bunny_1080p_60fps.mp4

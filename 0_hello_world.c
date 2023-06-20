@@ -28,9 +28,10 @@ static void save_gray_frame(unsigned char *buf, int wrap, int xsize, int ysize, 
 
 int main(int argc, const char *argv[])
 {
-  if (argc < 2) {
-    printf("You need to specify a media file.\n");
-    return -1;
+  char* filename = "/workspaces/ffmpeg-libav-tutorial/single-gop60.mp4";
+
+  if (argc >= 2) {
+    filename = argv[1];
   }
   
   logging("initializing all the containers, codecs and protocols.");
@@ -44,7 +45,7 @@ int main(int argc, const char *argv[])
     return -1;
   }
 
-  logging("opening the input file (%s) and loading format (container) header", argv[1]);
+  logging("opening the input file (%s) and loading format (container) header", filename);
   // Open the file and read its header. The codecs are not opened.
   // The function arguments are:
   // AVFormatContext (the component we allocated memory for),
@@ -52,7 +53,7 @@ int main(int argc, const char *argv[])
   // AVInputFormat (if you pass NULL it'll do the auto detect)
   // and AVDictionary (which are options to the demuxer)
   // http://ffmpeg.org/doxygen/trunk/group__lavf__decoding.html#ga31d601155e9035d5b0e7efedc894ee49
-  if (avformat_open_input(&pFormatContext, argv[1], NULL, NULL) != 0) {
+  if (avformat_open_input(&pFormatContext, filename, NULL, NULL) != 0) {
     logging("ERROR could not open the file");
     return -1;
   }
@@ -127,7 +128,7 @@ int main(int argc, const char *argv[])
   }
 
   if (video_stream_index == -1) {
-    logging("File %s does not contain a video stream!", argv[1]);
+    logging("File %s does not contain a video stream!", filename);
     return -1;
   }
 
